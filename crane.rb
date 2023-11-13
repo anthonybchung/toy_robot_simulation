@@ -2,8 +2,6 @@
 
 # Crane places a robot onto the table, and returns new robot position.
 class Crane
-    attr_accessor :table
-    
     def initialize
         @table = Table.new
     end
