@@ -5,6 +5,4 @@ class Robot
   attr_accessor :x_pos, :y_pos, :face
 
   def initialize; end
-
-  
 end
