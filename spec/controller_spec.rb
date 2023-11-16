@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require './controller'
 require './robot'
 require './table'
+require './controller'
 
 describe Controller do
   it 'is created' do
@@ -53,4 +53,126 @@ describe Controller do
       face: eq(nil)
     )
   end
+
+  it 'MOVE should make the robot advance 1 position' do
+    table = Table.new
+    controller = Controller.new(table)
+
+    # NORTH
+    valid_array = ['PLACE', 3, 3, 'NORTH']
+    controller.instruction(valid_array)
+
+    move_array = ['MOVE']
+    controller.instruction(move_array)
+
+    expect(controller.robot).to have_attributes(
+      x_pos: eq(3),
+      y_pos: eq(4),
+      face: eq('NORTH')
+    )
+
+    # EAST
+    place_array = ['PLACE', 3, 3, 'EAST']
+    controller.instruction(place_array)
+    controller.instruction(move_array)
+
+    expect(controller.robot).to have_attributes(
+      x_pos: eq(4),
+      y_pos: eq(3),
+      face: eq('EAST')
+    )
+
+    # SOUTH
+    place_array = ['PLACE', 0,5, 'SOUTH']
+    controller.instruction(place_array)
+    controller.instruction(move_array)
+
+    expect(controller.robot).to have_attributes(
+      x_pos: eq(0),
+      y_pos: eq(4),
+      face: eq('SOUTH')
+    )
+
+
+    # WEST
+    place_array = ['PLACE', 5,5,'WEST']
+    controller.instruction(place_array)
+    controller.instruction(move_array)
+
+    expect(controller.robot).to have_attributes(
+      x_pos: eq(4),
+      y_pos: eq(5),
+      face: eq('WEST')
+    )
+  end
+
+  it 'MOVE should not have any effect because of table limit' do
+    table = Table.new
+    controller = Controller.new(table)
+
+    # NORTH
+    valid_array = ['PLACE', 3, 5, 'NORTH']
+    controller.instruction(valid_array)
+
+    move_array = ['MOVE']
+    controller.instruction(move_array)
+
+    expect(controller.robot).to have_attributes(
+      x_pos: eq(3),
+      y_pos: eq(5),
+      face: eq('NORTH')
+    )
+
+    # EAST
+    east_array = ['PLACE', 5, 3, 'EAST']
+    controller.instruction(east_array)
+
+    controller.instruction(move_array)
+
+    expect(controller.robot).to have_attributes(
+      x_pos: eq(5),
+      y_pos: eq(3),
+      face: eq('EAST')
+    )
+
+    # SOUTH
+    south_array = ['PLACE', 0, 0, 'SOUTH']
+    controller.instruction(south_array)
+    controller.instruction(move_array)
+
+    expect(controller.robot).to have_attributes(
+      x_pos: eq(0),
+      y_pos: eq(0),
+      face: eq('SOUTH')
+    )
+  end
+
+  it 'has a right method' do
+    table = Table.new
+    controller = Controller.new(table)
+    place_array = ['PLACE', 0,0,'NORTH']
+    controller.instruction(place_array)
+    right_array = ['RIGHT']
+    controller.instruction(right_array)
+  end
+
+  it 'should have the next right direction' do
+    table = Table.new
+    controller = Controller.new(table)
+    right_array = ['RIGHT']
+    place_array = ['PLACE', 0,0,'NORTH']
+    controller.instruction(place_array)
+    controller.instruction(right_array)
+
+    expect(controller.robot.face).to eq('EAST')
+    controller.instruction(right_array)
+    expect(controller.robot.face).to eq('SOUTH')
+    controller.instruction(right_array)
+    expect(controller.robot.face).to eq('WEST')
+    controller.instruction(right_array)
+    expect(controller.robot.face).to eq('NORTH')
+  end
+
+
+
 end

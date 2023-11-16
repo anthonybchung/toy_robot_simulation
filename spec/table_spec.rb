@@ -2,7 +2,6 @@
 
 require './table'
 require './robot'
-require './crane'
 
 # Table should just validate the position entered.
 # It does nothing more.
