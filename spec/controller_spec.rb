@@ -173,6 +173,33 @@ describe Controller do
     expect(controller.robot.face).to eq('NORTH')
   end
 
+  it 'should have the left method' do
+    table = Table.new
+    controller = Controller.new(table)
+    place_array = ['PLACE', 0, 0, 'NORTH']
+    controller.instruction(place_array)
+    left_array = ['LEFT']
+    controller.instruction(left_array)
+  end
 
+  it 'should have the next left direction/face' do
+    table = Table.new
+    controller = Controller.new(table)
+    place_array = ['PLACE', 0, 0, 'NORTH']
+    controller.instruction(place_array)
+
+    left_array = ['LEFT']
+    controller.instruction(left_array)
+    expect(controller.robot.face).to eq('WEST')
+
+    controller.instruction(left_array)
+    expect(controller.robot.face).to eq('SOUTH')
+
+    controller.instruction(left_array)
+    expect(controller.robot.face).to eq('EAST')
+
+    controller.instruction(left_array)
+    expect(controller.robot.face).to eq('NORTH')
+  end
 
 end

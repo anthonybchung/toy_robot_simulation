@@ -25,6 +25,9 @@ class Controller
 
     elsif instruc_array[0] == 'RIGHT'
       right
+
+    elsif instruc_array[0] == 'LEFT'
+      left
     end
 
     @robot
@@ -69,6 +72,13 @@ class Controller
       current_direction = @@direction.find_index(@robot.face)
       new_direction = current_direction + 1
       new_direction = 0 if new_direction > 3
+      @robot.face = @@direction[new_direction]
+    end
+
+    def left
+      current_direction = @@direction.find_index(@robot.face)
+      new_direction = current_direction - 1
+      new_direction = 3 if new_direction < 0
       @robot.face = @@direction[new_direction]
     end
   end
