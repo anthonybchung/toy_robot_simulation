@@ -46,5 +46,4 @@ describe Table do
     valid_position = table.validate_position(position)
     expect(valid_position).to be true
   end
-  
 end
