@@ -202,4 +202,33 @@ describe Controller do
     expect(controller.robot.face).to eq('NORTH')
   end
 
+  it 'REPORT should return the position of the robot' do
+    table = Table.new
+    controller = Controller.new(table)
+    place_array = ['PLACE', 0, 0, 'NORTH']
+    controller.instruction(place_array)
+
+    right_array = ['RIGHT']
+    controller.instruction(right_array)
+
+    move_array = ['MOVE']
+    controller.instruction(move_array)
+    controller.instruction(move_array)
+
+    left_array = ['LEFT']
+    controller.instruction(left_array)
+
+    report_array = ['REPORT']
+    report = controller.instruction(report_array)
+
+    expect(report).to eq('2,0,NORTH')
+  end
+
+  it 'LEFT, RIGHT, MOVE, REPORT should not work if robot does not have a valid position' do
+    table = Table.new
+    controller = Controller.new(table)
+    move_array = ['MOVE']
+    report = controller.instruction(move_array)
+    expect(report).to eq('Robot is not on the board')
+  end
 end

@@ -19,15 +19,16 @@ class Controller
       y_pos = instruc_array[2]
       face = instruc_array[3]
       place(x_pos:, y_pos:, face:)
-
-    elsif instruc_array[0] == 'MOVE'
+    elsif instruc_array[0] == 'MOVE' && @robot.x_pos != nil
       move
-
-    elsif instruc_array[0] == 'RIGHT'
+    elsif instruc_array[0] == 'RIGHT' && @robot.x_pos != nil
       right
-
-    elsif instruc_array[0] == 'LEFT'
+    elsif instruc_array[0] == 'LEFT' && @robot.x_pos != nil
       left
+    elsif instruc_array[0] == 'REPORT' && @robot.x_pos != nil
+      return report
+    elsif @robot.x_pos == nil
+      return 'Robot is not on the board'
     end
 
     @robot
@@ -81,5 +82,9 @@ class Controller
       new_direction = 3 if new_direction < 0
       @robot.face = @@direction[new_direction]
     end
+  end
+
+  def report
+    report_str = "#{@robot.x_pos},#{@robot.y_pos},#{@robot.face}"
   end
 end
