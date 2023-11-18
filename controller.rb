@@ -15,8 +15,8 @@ class Controller
 
   def instruction(instruc_array)
     if instruc_array[0] == 'PLACE'
-      x_pos = instruc_array[1]
-      y_pos = instruc_array[2]
+      x_pos = instruc_array[1].to_i
+      y_pos = instruc_array[2].to_i
       face = instruc_array[3]
       place(x_pos:, y_pos:, face:)
     elsif instruc_array[0] == 'MOVE' && @robot.x_pos != nil
